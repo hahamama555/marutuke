@@ -1,1 +1,1212 @@
-# marutuke
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
+
+<title>⭕️ マス目チェックツール</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+}
+
+body {
+  padding: 12px 8px 30px;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    "Noto Sans JP",
+    sans-serif;
+
+  color: #222222;
+}
+
+
+/* =========================
+   設定
+========================= */
+
+#settings {
+
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0 auto 12px;
+
+  padding: 12px;
+
+  background: #f5f5f5;
+
+  border: 1px solid #dddddd;
+
+  border-radius: 12px;
+}
+
+#settings-title {
+
+  margin: 0 0 10px;
+
+  text-align: center;
+
+  font-size: 19px;
+
+  font-weight: bold;
+}
+
+.setting-row {
+
+  margin-bottom: 10px;
+}
+
+.setting-row label {
+
+  display: block;
+
+  margin-bottom: 4px;
+
+  font-size: 14px;
+
+  font-weight: bold;
+}
+
+.setting-row input {
+
+  width: 100%;
+
+  height: 44px;
+
+  padding: 8px 10px;
+
+  background: #ffffff;
+
+  color: #222222;
+
+  border: 1px solid #aaaaaa;
+
+  border-radius: 7px;
+
+  font-size: 16px;
+}
+
+
+/* =========================
+   ボタン
+========================= */
+
+.buttons {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 7px;
+
+  margin-top: 8px;
+}
+
+button {
+
+  min-height: 42px;
+
+  padding: 8px 5px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+
+  font-weight: bold;
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  touch-action: manipulation;
+}
+
+button:active {
+
+  transform: scale(0.96);
+}
+
+#createButton {
+
+  background: #2196f3;
+}
+
+#editButton {
+
+  background: #1976d2;
+}
+
+#resetButton {
+
+  background: #e53935;
+}
+
+#liveButton {
+
+  background: #555555;
+}
+
+
+/* =========================
+   モード
+========================= */
+
+#mode {
+
+  width: 100%;
+  max-width: 900px;
+
+  margin: 5px auto 8px;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  color: #666666;
+}
+
+
+/* =========================
+   タイトル
+========================= */
+
+#title {
+
+  width: 100%;
+  max-width: 1000px;
+
+  margin: 5px auto 10px;
+
+  text-align: center;
+
+  font-size:
+    clamp(21px, 6vw, 40px);
+
+  line-height: 1.2;
+
+  font-weight: bold;
+}
+
+
+/* =========================
+   ボード
+========================= */
+
+#board {
+
+  width: 100%;
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+
+  gap: 5px;
+}
+
+
+/* =========================
+   マス
+========================= */
+
+.cell {
+
+  position: relative;
+
+  width: 100%;
+
+  min-width: 0;
+
+  min-height: 70px;
+
+  padding: 7px 3px;
+
+  background: #9edff5;
+
+  border:
+    2px solid #55b4d4;
+
+  border-radius: 8px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  user-select: none;
+
+  -webkit-user-select: none;
+
+  touch-action: manipulation;
+
+  overflow: hidden;
+
+  color: #111111;
+
+  transition:
+    background 0.15s,
+    transform 0.1s;
+}
+
+
+/* =========================
+   マス名称
+========================= */
+
+.cell-name {
+
+  display: block;
+
+  width: 100%;
+
+  color: #111111;
+
+  font-size:
+    clamp(11px, 3vw, 21px);
+
+  font-weight: bold;
+
+  line-height: 1.2;
+
+  text-align: center;
+
+  word-break: break-all;
+
+  writing-mode: horizontal-tb;
+}
+
+
+/* =========================
+   チェック済み
+========================= */
+
+.cell.checked {
+
+  background: #e53935;
+
+  border-color: #b71c1c;
+
+}
+
+
+/* =========================
+   チェック済みの文字
+========================= */
+
+.cell.checked .cell-name {
+
+  color: #ffffff;
+
+}
+
+
+/* =========================
+   ⭕️
+========================= */
+
+.cell-check {
+
+  position: absolute;
+
+  left: 50%;
+
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  z-index: 2;
+
+  display: none;
+
+  color: #ffffff;
+
+  font-size:
+    clamp(34px, 9vw, 75px);
+
+  font-weight: bold;
+
+  line-height: 1;
+
+  pointer-events: none;
+
+  text-shadow:
+    0 1px 2px rgba(
+      0,
+      0,
+      0,
+      0.25
+    );
+}
+
+
+/* チェック済みなら⭕️表示 */
+
+.cell.checked .cell-check {
+
+  display: block;
+
+}
+
+
+/* =========================
+   タップ
+========================= */
+
+.cell:active {
+
+  transform: scale(0.96);
+
+}
+
+
+/* =========================
+   配信用画面
+========================= */
+
+body.live {
+
+  padding:
+    0 5px 30px;
+}
+
+body.live #settings {
+
+  display: none;
+}
+
+body.live #mode {
+
+  display: none;
+}
+
+body.live #title {
+
+  margin-top: 8px;
+}
+
+
+/* =========================
+   スマホ
+========================= */
+
+@media
+(max-width: 500px) {
+
+  body {
+
+    padding:
+      5px 4px 30px;
+
+  }
+
+  #settings {
+
+    padding: 9px;
+
+  }
+
+  #board {
+
+    gap: 4px;
+
+  }
+
+  .cell {
+
+    min-height: 65px;
+
+    padding:
+      6px 2px;
+
+    border-radius: 7px;
+
+  }
+
+  .cell-name {
+
+    font-size:
+      clamp(10px, 3vw, 15px);
+
+  }
+
+}
+
+
+/* =========================
+   100〜200マス
+========================= */
+
+.many .cell {
+
+  min-height: 50px;
+
+}
+
+.many .cell-name {
+
+  font-size:
+    clamp(7px, 2vw, 12px);
+
+}
+
+.many .cell-check {
+
+  font-size:
+    clamp(24px, 6vw, 45px);
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     設定画面
+========================= -->
+
+<div id="settings">
+
+  <div id="settings-title">
+    ⚙️ ボード設定
+  </div>
+
+
+  <div class="setting-row">
+
+    <label>
+      タイトル
+    </label>
+
+    <input
+      id="titleInput"
+      type="text"
+      value="47都道府県制覇！">
+
+  </div>
+
+
+  <div class="setting-row">
+
+    <label>
+      マス数（1〜200）
+    </label>
+
+    <input
+      id="countInput"
+      type="number"
+      value="47"
+      min="1"
+      max="200">
+
+  </div>
+
+
+  <div class="buttons">
+
+    <button id="createButton">
+      マスを作る
+    </button>
+
+    <button id="editButton">
+      📝 マス名称変更
+    </button>
+
+    <button id="resetButton">
+      🔄 ⭕️リセット
+    </button>
+
+    <button id="liveButton">
+      📺 配信用画面
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     モード
+========================= -->
+
+<div id="mode">
+  ⭕️ タップしてチェック
+</div>
+
+
+<!-- =========================
+     タイトル
+========================= -->
+
+<div id="title">
+  47都道府県制覇！
+</div>
+
+
+<!-- =========================
+     ボード
+========================= -->
+
+<div id="board"></div>
+
+
+<script>
+
+/* =====================================================
+   初期マス名称
+===================================================== */
+
+const prefectures = [
+
+  "北海道",
+  "青森県",
+  "岩手県",
+  "宮城県",
+  "秋田県",
+  "山形県",
+  "福島県",
+
+  "茨城県",
+  "栃木県",
+  "群馬県",
+  "埼玉県",
+  "千葉県",
+  "東京都",
+  "神奈川県",
+
+  "新潟県",
+  "富山県",
+  "石川県",
+  "福井県",
+  "山梨県",
+  "長野県",
+
+  "岐阜県",
+  "静岡県",
+  "愛知県",
+  "三重県",
+
+  "滋賀県",
+  "京都府",
+  "大阪府",
+  "兵庫県",
+  "奈良県",
+  "和歌山県",
+
+  "鳥取県",
+  "島根県",
+  "岡山県",
+  "広島県",
+  "山口県",
+
+  "徳島県",
+  "香川県",
+  "愛媛県",
+  "高知県",
+
+  "福岡県",
+  "佐賀県",
+  "長崎県",
+  "熊本県",
+  "大分県",
+  "宮崎県",
+  "鹿児島県",
+  "沖縄県"
+
+];
+
+
+/* =====================================================
+   データ
+===================================================== */
+
+let cells = [];
+
+let editMode = false;
+
+
+/* =====================================================
+   HTML要素
+===================================================== */
+
+const board =
+  document.getElementById(
+    "board"
+  );
+
+const title =
+  document.getElementById(
+    "title"
+  );
+
+const titleInput =
+  document.getElementById(
+    "titleInput"
+  );
+
+const countInput =
+  document.getElementById(
+    "countInput"
+  );
+
+const modeText =
+  document.getElementById(
+    "mode"
+  );
+
+
+/* =====================================================
+   ボード作成
+===================================================== */
+
+function createBoard() {
+
+  let count =
+    parseInt(
+      countInput.value,
+      10
+    );
+
+
+  if (
+    isNaN(count)
+  ) {
+
+    count = 47;
+
+  }
+
+
+  if (
+    count < 1
+  ) {
+
+    count = 1;
+
+  }
+
+
+  if (
+    count > 200
+  ) {
+
+    count = 200;
+
+  }
+
+
+  countInput.value =
+    count;
+
+
+  /* タイトル */
+
+  title.textContent =
+    titleInput.value.trim()
+    ||
+    "参加型企画";
+
+
+  /* データ作成 */
+
+  cells = [];
+
+
+  for (
+    let i = 0;
+    i < count;
+    i++
+  ) {
+
+    cells.push({
+
+      name:
+        prefectures[i]
+        ||
+        "マス" +
+        (i + 1),
+
+      checked:
+        false
+
+    });
+
+  }
+
+
+  render();
+
+}
+
+
+/* =====================================================
+   列数
+===================================================== */
+
+function setColumns(
+  count
+) {
+
+  let columns = 5;
+
+
+  if (
+    count === 1
+  ) {
+
+    columns = 1;
+
+  }
+
+  else if (
+    count === 2
+  ) {
+
+    columns = 2;
+
+  }
+
+  else if (
+    count <= 4
+  ) {
+
+    columns = 2;
+
+  }
+
+  else if (
+    count <= 6
+  ) {
+
+    columns = 3;
+
+  }
+
+  else {
+
+    columns = 5;
+
+  }
+
+
+  board.style.gridTemplateColumns =
+    "repeat(" +
+    columns +
+    ", minmax(0, 1fr))";
+
+}
+
+
+/* =====================================================
+   ボード表示
+===================================================== */
+
+function render() {
+
+  board.innerHTML =
+    "";
+
+
+  setColumns(
+    cells.length
+  );
+
+
+  /* 100マス以上 */
+
+  if (
+    cells.length >= 100
+  ) {
+
+    board.classList.add(
+      "many"
+    );
+
+  }
+
+  else {
+
+    board.classList.remove(
+      "many"
+    );
+
+  }
+
+
+  cells.forEach(
+    function(data, index) {
+
+      /* =========================
+         マス
+      ========================= */
+
+      const cell =
+        document.createElement(
+          "div"
+        );
+
+      cell.className =
+        "cell";
+
+
+      /* =========================
+         ⭕️チェック済み
+      ========================= */
+
+      if (
+        data.checked
+      ) {
+
+        cell.classList.add(
+          "checked"
+        );
+
+      }
+
+
+      /* =========================
+         マス名称
+      ========================= */
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+      name.className =
+        "cell-name";
+
+      name.textContent =
+        data.name;
+
+
+      cell.appendChild(
+        name
+      );
+
+
+      /* =========================
+         ⭕️
+      ========================= */
+
+      const check =
+        document.createElement(
+          "div"
+        );
+
+      check.className =
+        "cell-check";
+
+      check.textContent =
+        "⭕️";
+
+
+      cell.appendChild(
+        check
+      );
+
+
+      /* =========================
+         タップ
+      ========================= */
+
+      cell.addEventListener(
+        "click",
+        function() {
+
+          tapCell(index);
+
+        }
+      );
+
+
+      board.appendChild(
+        cell
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   マスをタップ
+===================================================== */
+
+function tapCell(index) {
+
+  const data =
+    cells[index];
+
+
+  /* =========================
+     名称変更モード
+  ========================= */
+
+  if (
+    editMode
+  ) {
+
+    const newName =
+      window.prompt(
+        "マスの名称を入力してください",
+        data.name
+      );
+
+
+    if (
+      newName === null
+    ) {
+
+      return;
+
+    }
+
+
+    const value =
+      newName.trim();
+
+
+    if (
+      value !== ""
+    ) {
+
+      data.name =
+        value;
+
+    }
+
+
+    render();
+
+    return;
+
+  }
+
+
+  /* =========================
+     通常モード
+     ⭕️をON/OFF
+  ========================= */
+
+  data.checked =
+    !data.checked;
+
+
+  render();
+
+}
+
+
+/* =====================================================
+   マス名称変更
+===================================================== */
+
+document
+  .getElementById(
+    "editButton"
+  )
+  .addEventListener(
+    "click",
+    function() {
+
+      editMode =
+        !editMode;
+
+
+      if (
+        editMode
+      ) {
+
+        this.textContent =
+          "↩️ 通常モード";
+
+        modeText.textContent =
+          "📝 マス名称変更モード";
+
+      }
+
+      else {
+
+        this.textContent =
+          "📝 マス名称変更";
+
+        modeText.textContent =
+          "⭕️ タップしてチェック";
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   マス作成
+===================================================== */
+
+document
+  .getElementById(
+    "createButton"
+  )
+  .addEventListener(
+    "click",
+    function() {
+
+      createBoard();
+
+    }
+  );
+
+
+/* =====================================================
+   リセット
+===================================================== */
+
+document
+  .getElementById(
+    "resetButton"
+  )
+  .addEventListener(
+    "click",
+    function() {
+
+      const ok =
+        window.confirm(
+          "すべての⭕️を消しますか？"
+        );
+
+
+      if (
+        !ok
+      ) {
+
+        return;
+
+      }
+
+
+      cells.forEach(
+        function(data) {
+
+          data.checked =
+            false;
+
+        }
+      );
+
+
+      render();
+
+    }
+  );
+
+
+/* =====================================================
+   配信用画面
+===================================================== */
+
+document
+  .getElementById(
+    "liveButton"
+  )
+  .addEventListener(
+    "click",
+    function() {
+
+      document.body
+        .classList
+        .toggle(
+          "live"
+        );
+
+
+      const isLive =
+        document.body
+          .classList
+          .contains(
+            "live"
+          );
+
+
+      if (
+        isLive
+      ) {
+
+        this.textContent =
+          "↩️ 設定に戻る";
+
+      }
+
+      else {
+
+        this.textContent =
+          "📺 配信用画面";
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   タイトル変更
+===================================================== */
+
+titleInput.addEventListener(
+  "input",
+  function() {
+
+    title.textContent =
+      this.value.trim()
+      ||
+      "参加型企画";
+
+  }
+);
+
+
+/* =====================================================
+   初期表示
+===================================================== */
+
+createBoard();
+
+</script>
+
+</body>
+</html>
