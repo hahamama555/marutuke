@@ -9,13 +9,9 @@
       maximum-scale=1.0,
       user-scalable=no">
 
-<title>マス目参加型ツール</title>
+<title>企画ボード</title>
 
 <style>
-
-/* =========================================
-   基本
-========================================= */
 
 * {
   box-sizing: border-box;
@@ -37,7 +33,7 @@ body {
     Meiryo,
     sans-serif;
 
-  color: #222222;
+  color: #222;
 }
 
 body {
@@ -45,9 +41,9 @@ body {
 }
 
 
-/* =========================================
+/* ===============================
    全体
-========================================= */
+================================ */
 
 .container {
   width: 100%;
@@ -56,17 +52,57 @@ body {
   margin: 0 auto;
 
   padding:
-    10px 8px 70px;
+    8px 6px 70px;
 }
 
 
-/* =========================================
+/* ===============================
+   企画切り替え
+================================ */
+
+.project-tabs {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 6px;
+
+  margin-bottom: 10px;
+}
+
+.project-tab {
+  min-height: 45px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #dddddd;
+
+  color: #333;
+
+  font-size: 17px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.project-tab.active {
+  background: #2196f3;
+
+  color: white;
+}
+
+
+/* ===============================
    タイトル
-========================================= */
+================================ */
 
 #title {
   margin:
-    5px 0 15px;
+    5px 0 14px;
 
   text-align: center;
 
@@ -81,29 +117,22 @@ body {
 }
 
 
-/* =========================================
-   設定パネル
-========================================= */
+/* ===============================
+   設定
+================================ */
 
 .settings {
-  width: 100%;
-
   background: #f3f3f3;
 
-  border-radius: 14px;
+  border-radius: 13px;
 
-  padding: 13px;
+  padding: 11px;
 
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
-
-/* =========================================
-   入力
-========================================= */
-
 .input-group {
-  margin-bottom: 12px;
+  margin-bottom: 9px;
 }
 
 .input-group:last-child {
@@ -113,9 +142,9 @@ body {
 .input-group label {
   display: block;
 
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 
-  font-size: 14px;
+  font-size: 13px;
 
   font-weight: bold;
 }
@@ -123,17 +152,17 @@ body {
 .input-group input {
   width: 100%;
 
-  height: 44px;
+  height: 42px;
 
   padding:
-    8px 10px;
-
-  background: #ffffff;
+    7px 9px;
 
   border:
     2px solid #cccccc;
 
   border-radius: 8px;
+
+  background: white;
 
   font-size: 16px;
 
@@ -145,9 +174,9 @@ body {
 }
 
 
-/* =========================================
+/* ===============================
    ボタン
-========================================= */
+================================ */
 
 .button-row {
   display: grid;
@@ -155,26 +184,26 @@ body {
   grid-template-columns:
     repeat(2, 1fr);
 
-  gap: 7px;
+  gap: 6px;
 
-  margin-top: 10px;
+  margin-top: 9px;
 }
 
 button {
-  min-height: 44px;
+  min-height: 43px;
 
   padding:
-    9px 8px;
+    8px;
 
   border: none;
 
-  border-radius: 9px;
+  border-radius: 8px;
+
+  color: white;
 
   font-size: 14px;
 
   font-weight: bold;
-
-  color: white;
 
   cursor: pointer;
 
@@ -202,27 +231,27 @@ button:active {
 }
 
 
-/* =========================================
+/* ===============================
    説明
-========================================= */
+================================ */
 
 .help {
-  margin:
-    8px 0 12px;
-
   text-align: center;
 
-  color: #666666;
+  color: #666;
 
-  font-size: 13px;
+  font-size: 12px;
 
-  line-height: 1.5;
+  line-height: 1.4;
+
+  margin:
+    5px 0 10px;
 }
 
 
-/* =========================================
+/* ===============================
    マス
-========================================= */
+================================ */
 
 #board {
   width: 100%;
@@ -232,13 +261,13 @@ button:active {
   grid-template-columns:
     repeat(5, minmax(0, 1fr));
 
-  gap: 6px;
+  gap: 5px;
 }
 
 
-/* =========================================
+/* ===============================
    1マス
-========================================= */
+================================ */
 
 .cell {
   position: relative;
@@ -247,14 +276,12 @@ button:active {
 
   aspect-ratio: 1 / 1;
 
-  min-width: 0;
-
   background: #9edff0;
 
   border:
-    3px solid #777777;
+    2px solid #777;
 
-  border-radius: 10px;
+  border-radius: 8px;
 
   display: flex;
 
@@ -271,10 +298,6 @@ button:active {
   -webkit-user-select: none;
 
   touch-action: manipulation;
-
-  transition:
-    background-color 0.15s ease,
-    transform 0.08s ease;
 }
 
 .cell:active {
@@ -282,54 +305,10 @@ button:active {
 }
 
 
-/* =========================================
-   マス名称
-   ⭕️より前面
-========================================= */
-
-.cell-name {
-  position: relative;
-
-  z-index: 5;
-
-  width: 100%;
-
-  padding:
-    5px 3px;
-
-  color: #222222;
-
-  text-align: center;
-
-  font-size:
-    clamp(11px, 3.5vw, 23px);
-
-  font-weight: 800;
-
-  line-height: 1.2;
-
-  word-break: break-all;
-
-  overflow-wrap: anywhere;
-
-  pointer-events: none;
-}
-
-
-/* =========================================
-   タップ後のマス
-========================================= */
-
-.cell.checked {
-  background: #ffffff;
-}
-
-
-/* =========================================
+/* ===============================
    赤い⭕️
-   ★マス全体に重ねる
-   ★文字より後ろ
-========================================= */
+   文字より後ろ
+================================ */
 
 .cell-circle {
   position: absolute;
@@ -345,7 +324,7 @@ button:active {
   top: 6%;
 
   border:
-    8px solid #ff0000;
+    7px solid #ff0000;
 
   border-radius: 50%;
 
@@ -354,28 +333,61 @@ button:active {
   pointer-events: none;
 }
 
-
-/* =========================================
-   チェック済みなら⭕️表示
-========================================= */
+.cell.checked {
+  background: #ffffff;
+}
 
 .cell.checked .cell-circle {
   display: block;
 }
 
 
-/* =========================================
-   200マスなど大量表示
-========================================= */
+/* ===============================
+   マス名称
+   ⭕️より前
+================================ */
+
+.cell-name {
+  position: relative;
+
+  z-index: 5;
+
+  width: 100%;
+
+  padding:
+    4px 2px;
+
+  text-align: center;
+
+  color: #222;
+
+  font-size:
+    clamp(10px, 3.4vw, 22px);
+
+  font-weight: 800;
+
+  line-height: 1.2;
+
+  word-break: break-all;
+
+  overflow-wrap: anywhere;
+
+  pointer-events: none;
+}
+
+
+/* ===============================
+   大量マス
+================================ */
 
 #board.large {
-  gap: 4px;
+  gap: 3px;
 }
 
 #board.large .cell {
-  border-width: 2px;
+  border-width: 1px;
 
-  border-radius: 6px;
+  border-radius: 5px;
 }
 
 #board.large .cell-name {
@@ -384,13 +396,13 @@ button:active {
 }
 
 #board.large .cell-circle {
-  border-width: 5px;
+  border-width: 4px;
 }
 
 
-/* =========================================
-   名称設定モーダル
-========================================= */
+/* ===============================
+   モーダル
+================================ */
 
 #nameModal {
   position: fixed;
@@ -405,20 +417,15 @@ button:active {
 
   justify-content: center;
 
-  padding: 15px;
+  padding: 12px;
 
   background:
-    rgba(0, 0, 0, 0.55);
+    rgba(0,0,0,0.55);
 }
 
 #nameModal.show {
   display: flex;
 }
-
-
-/* =========================================
-   モーダル本体
-========================================= */
 
 .modal-box {
   width: 100%;
@@ -429,66 +436,64 @@ button:active {
 
   overflow-y: auto;
 
-  background: #ffffff;
+  background: white;
 
   border-radius: 15px;
 
-  padding: 17px;
+  padding: 15px;
 }
 
 .modal-box h2 {
   margin:
-    0 0 6px;
+    0 0 5px;
 
   font-size: 21px;
 }
 
 .modal-box p {
   margin:
-    0 0 12px;
+    0 0 10px;
 
-  color: #666666;
+  color: #666;
 
   font-size: 13px;
 
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 
-/* =========================================
-   マス名称入力一覧
-========================================= */
+/* ===============================
+   名称入力
+================================ */
 
 .name-list {
   display: flex;
 
   flex-direction: column;
 
-  gap: 7px;
+  gap: 6px;
 }
 
-
-/* 1行 */
 .name-row {
   display: flex;
 
   align-items: center;
 
-  gap: 7px;
+  gap: 6px;
 }
 
 .name-number {
-  width: 38px;
+  width: 34px;
 
-  flex: 0 0 38px;
+  flex: 0 0 34px;
 
   text-align: right;
 
-  font-size: 13px;
+  color: #555;
+
+  font-size: 12px;
 
   font-weight: bold;
-
-  color: #555555;
 }
 
 .name-row input {
@@ -496,13 +501,13 @@ button:active {
 
   min-width: 0;
 
-  height: 42px;
+  height: 40px;
 
   padding:
-    7px 9px;
+    6px 8px;
 
   border:
-    1px solid #cccccc;
+    1px solid #ccc;
 
   border-radius: 7px;
 
@@ -511,14 +516,10 @@ button:active {
   outline: none;
 }
 
-.name-row input:focus {
-  border-color: #2196f3;
-}
 
-
-/* =========================================
+/* ===============================
    モーダルボタン
-========================================= */
+================================ */
 
 .modal-buttons {
   display: grid;
@@ -526,59 +527,30 @@ button:active {
   grid-template-columns:
     repeat(2, 1fr);
 
-  gap: 7px;
+  gap: 6px;
 
-  margin-top: 13px;
+  margin-top: 10px;
 }
 
 
-/* =========================================
+/* ===============================
    スマホ
-========================================= */
+================================ */
 
 @media (max-width: 600px) {
 
   .container {
     padding:
-      6px 5px 70px;
+      5px 4px 70px;
   }
-
-  .settings {
-    padding: 10px;
-  }
-
-  #board {
-    gap: 5px;
-  }
-
-  .cell {
-    border-width: 2px;
-
-    border-radius: 8px;
-  }
-
-  .cell-circle {
-    border-width: 6px;
-  }
-
-  .cell-name {
-    font-size:
-      clamp(10px, 3.6vw, 19px);
-  }
-}
-
-
-/* =========================================
-   小さいスマホ
-========================================= */
-
-@media (max-width: 390px) {
 
   #board {
     gap: 4px;
   }
 
   .cell {
+    border-width: 2px;
+
     border-radius: 7px;
   }
 
@@ -588,15 +560,14 @@ button:active {
 
   .cell-name {
     font-size:
-      clamp(9px, 3.5vw, 16px);
+      clamp(9px, 3.5vw, 18px);
   }
-
 }
 
 
-/* =========================================
+/* ===============================
    1〜4マス
-========================================= */
+================================ */
 
 #board.one {
   grid-template-columns:
@@ -627,117 +598,124 @@ button:active {
 <div class="container">
 
 
-  <!-- =====================================
-       タイトル
-  ====================================== -->
+<!-- ==================================
+     企画切り替え
+=================================== -->
 
-  <h1 id="title">
-    47都道府県制覇！
-  </h1>
+<div class="project-tabs">
 
+  <button
+    id="tab1"
+    class="project-tab active">
+    企画①
+  </button>
 
-  <!-- =====================================
-       設定
-  ====================================== -->
+  <button
+    id="tab2"
+    class="project-tab">
+    企画②
+  </button>
 
-  <div class="settings">
-
-    <!-- タイトル -->
-
-    <div class="input-group">
-
-      <label>
-        タイトル
-      </label>
-
-      <input
-        id="titleInput"
-        type="text"
-        value="47都道府県制覇！"
-      >
-
-    </div>
+</div>
 
 
-    <!-- マス数 -->
+<!-- ==================================
+     タイトル
+=================================== -->
 
-    <div class="input-group">
-
-      <label>
-        マス数（1〜200）
-      </label>
-
-      <input
-        id="countInput"
-        type="number"
-        min="1"
-        max="200"
-        value="47"
-      >
-
-    </div>
+<h1 id="title">
+  47都道府県制覇！
+</h1>
 
 
-    <!-- ボタン -->
+<!-- ==================================
+     設定
+=================================== -->
 
-    <div class="button-row">
+<div class="settings">
 
-      <button
-        class="blue"
-        id="createButton">
-        マスを作る
-      </button>
+  <div class="input-group">
 
-      <button
-        class="green"
-        id="nameButton">
-        マス名称を設定
-      </button>
+    <label>
+      タイトル
+    </label>
 
-      <button
-        class="red"
-        id="resetButton">
-        ⭕️を全部リセット
-      </button>
-
-    </div>
+    <input
+      id="titleInput"
+      type="text">
 
   </div>
 
 
-  <!-- =====================================
-       説明
-  ====================================== -->
+  <div class="input-group">
 
-  <div class="help">
+    <label>
+      マス数（1〜200）
+    </label>
 
-    マスをタップすると
-    <strong>白色＋赤い⭕️</strong>になります。<br>
-
-    もう一度タップすると元に戻ります。
+    <input
+      id="countInput"
+      type="number"
+      min="1"
+      max="200">
 
   </div>
 
 
-  <!-- =====================================
-       ボード
-  ====================================== -->
+  <div class="button-row">
 
-  <div
-    id="board">
+    <button
+      id="createButton"
+      class="blue">
+      マスを作る
+    </button>
+
+    <button
+      id="nameButton"
+      class="green">
+      マス名称を設定
+    </button>
+
+    <button
+      id="resetButton"
+      class="red">
+      ⭕️を全部リセット
+    </button>
+
   </div>
+
+</div>
+
+
+<!-- ==================================
+     説明
+=================================== -->
+
+<div class="help">
+
+  マスをタップすると
+  <strong>白色＋赤い⭕️</strong>になります。<br>
+
+  企画①と企画②は別々に保存されます。
+
+</div>
+
+
+<!-- ==================================
+     ボード
+=================================== -->
+
+<div id="board"></div>
 
 
 </div>
 
 
-<!-- =========================================
-     マス名称設定画面
-========================================== -->
+<!-- ==================================
+     名称設定モーダル
+=================================== -->
 
-<div
-  id="nameModal">
-
+<div id="nameModal">
 
   <div class="modal-box">
 
@@ -747,11 +725,9 @@ button:active {
 
     <p>
       好きな名前を入力してください。<br>
-      1つの入力欄が1マスに対応しています。
+      1つの入力欄が1マスです。
     </p>
 
-
-    <!-- 名称一覧 -->
 
     <div
       id="nameList"
@@ -759,24 +735,21 @@ button:active {
     </div>
 
 
-    <!-- ボタン -->
-
     <div class="modal-buttons">
 
       <button
-        class="gray"
-        id="cancelButton">
+        id="cancelButton"
+        class="gray">
         キャンセル
       </button>
 
       <button
-        class="blue"
-        id="saveNamesButton">
+        id="saveNamesButton"
+        class="blue">
         名称を保存
       </button>
 
     </div>
-
 
   </div>
 
@@ -785,9 +758,9 @@ button:active {
 
 <script>
 
-/* =====================================================
-   初期の47都道府県
-===================================================== */
+/* =================================================
+   47都道府県
+================================================= */
 
 const defaultNames = [
 
@@ -849,22 +822,188 @@ const defaultNames = [
 ];
 
 
-/* =====================================================
-   現在の名称
-===================================================== */
+/* =================================================
+   企画データ
+================================================= */
 
-let names =
-  [...defaultNames];
+const defaultProject1 = {
+
+  title:
+    "47都道府県制覇！",
+
+  count:
+    47,
+
+  names:
+    [...defaultNames],
+
+  checked:
+    []
+
+};
 
 
-/* =====================================================
-   要素取得
-===================================================== */
+const defaultProject2 = {
 
-const board =
-  document.getElementById(
-    "board"
+  title:
+    "企画②",
+
+  count:
+    25,
+
+  names:
+    Array.from(
+      { length: 25 },
+      (_, i) =>
+        "マス" + (i + 1)
+    ),
+
+  checked:
+    []
+
+};
+
+
+/* =================================================
+   現在の企画
+================================================= */
+
+let currentProject = 1;
+
+
+/* =================================================
+   企画データ
+================================================= */
+
+let project1 =
+  loadProject(
+    "tiktokProject1",
+    defaultProject1
   );
+
+
+let project2 =
+  loadProject(
+    "tiktokProject2",
+    defaultProject2
+  );
+
+
+/* =================================================
+   現在のデータを取得
+================================================= */
+
+function getCurrentProject() {
+
+  if (
+    currentProject === 1
+  ) {
+
+    return project1;
+
+  }
+
+  return project2;
+
+}
+
+
+/* =================================================
+   保存
+================================================= */
+
+function saveProjects() {
+
+  localStorage.setItem(
+    "tiktokProject1",
+    JSON.stringify(project1)
+  );
+
+  localStorage.setItem(
+    "tiktokProject2",
+    JSON.stringify(project2)
+  );
+
+}
+
+
+/* =================================================
+   読み込み
+================================================= */
+
+function loadProject(
+  key,
+  defaultData
+) {
+
+  try {
+
+    const saved =
+      localStorage.getItem(key);
+
+    if (
+      saved
+    ) {
+
+      const data =
+        JSON.parse(saved);
+
+      return {
+
+        title:
+          data.title ||
+          defaultData.title,
+
+        count:
+          data.count ||
+          defaultData.count,
+
+        names:
+          Array.isArray(data.names)
+            ? data.names
+            : [...defaultData.names],
+
+        checked:
+          Array.isArray(data.checked)
+            ? data.checked
+            : []
+
+      };
+
+    }
+
+  } catch (e) {
+
+    console.log(
+      "読み込みエラー",
+      e
+    );
+
+  }
+
+
+  return {
+
+    title:
+      defaultData.title,
+
+    count:
+      defaultData.count,
+
+    names:
+      [...defaultData.names],
+
+    checked:
+      []
+
+  };
+
+}
+
+
+/* =================================================
+   画面の要素
+================================================= */
 
 const title =
   document.getElementById(
@@ -881,6 +1020,21 @@ const countInput =
     "countInput"
   );
 
+const board =
+  document.getElementById(
+    "board"
+  );
+
+const tab1 =
+  document.getElementById(
+    "tab1"
+  );
+
+const tab2 =
+  document.getElementById(
+    "tab2"
+  );
+
 const nameModal =
   document.getElementById(
     "nameModal"
@@ -892,101 +1046,73 @@ const nameList =
   );
 
 
-/* =====================================================
-   マス数を安全に取得
-===================================================== */
+/* =================================================
+   画面表示
+================================================= */
 
-function getCount() {
+function render() {
 
-  let count =
-    parseInt(
-      countInput.value,
-      10
-    );
-
-
-  if (
-    isNaN(count)
-  ) {
-    count = 47;
-  }
-
-
-  if (
-    count < 1
-  ) {
-    count = 1;
-  }
-
-
-  if (
-    count > 200
-  ) {
-    count = 200;
-  }
-
-
-  countInput.value =
-    count;
-
-
-  return count;
-}
-
-
-/* =====================================================
-   タイトル変更
-===================================================== */
-
-function updateTitle() {
-
-  const value =
-    titleInput.value.trim();
-
-
-  title.textContent =
-    value ||
-    "参加型企画";
-}
-
-
-/* =====================================================
-   マス作成
-===================================================== */
-
-function createBoard() {
-
-  const count =
-    getCount();
+  const data =
+    getCurrentProject();
 
 
   /* タイトル */
 
-  updateTitle();
+  title.textContent =
+    data.title;
+
+  titleInput.value =
+    data.title;
 
 
-  /* 既存マス削除 */
+  /* マス数 */
+
+  countInput.value =
+    data.count;
+
+
+  /* タブ */
+
+  tab1.classList.toggle(
+    "active",
+    currentProject === 1
+  );
+
+  tab2.classList.toggle(
+    "active",
+    currentProject === 2
+  );
+
+
+  /* ボード */
+
+  renderBoard(
+    data
+  );
+
+}
+
+
+/* =================================================
+   マス表示
+================================================= */
+
+function renderBoard(
+  data
+) {
 
   board.innerHTML =
     "";
 
 
-  /* 列数クラス削除 */
-
   board.className =
     "";
 
 
-  board.id =
-    "board";
-
-
-  /* =========================================
-     1〜200マスに合わせて列数
-  ========================================= */
+  /* 列数 */
 
   if (
-    count === 1
+    data.count === 1
   ) {
 
     board.classList.add(
@@ -996,7 +1122,7 @@ function createBoard() {
   }
 
   else if (
-    count === 2
+    data.count === 2
   ) {
 
     board.classList.add(
@@ -1006,7 +1132,7 @@ function createBoard() {
   }
 
   else if (
-    count === 3
+    data.count === 3
   ) {
 
     board.classList.add(
@@ -1016,7 +1142,7 @@ function createBoard() {
   }
 
   else if (
-    count === 4
+    data.count === 4
   ) {
 
     board.classList.add(
@@ -1026,7 +1152,7 @@ function createBoard() {
   }
 
   else if (
-    count >= 100
+    data.count >= 100
   ) {
 
     board.classList.add(
@@ -1036,18 +1162,13 @@ function createBoard() {
   }
 
 
-  /* =========================================
-     マス作成
-  ========================================= */
+  /* マス生成 */
 
   for (
     let i = 0;
-    i < count;
+    i < data.count;
     i++
   ) {
-
-
-    /* マス */
 
     const cell =
       document.createElement(
@@ -1058,10 +1179,20 @@ function createBoard() {
       "cell";
 
 
-    /* =======================================
-       ⭕️
-       ※文字より後ろ
-    ======================================= */
+    /* チェック状態 */
+
+    if (
+      data.checked.includes(i)
+    ) {
+
+      cell.classList.add(
+        "checked"
+      );
+
+    }
+
+
+    /* ⭕️ */
 
     const circle =
       document.createElement(
@@ -1072,10 +1203,7 @@ function createBoard() {
       "cell-circle";
 
 
-    /* =======================================
-       マス名称
-       ※⭕️より前
-    ======================================= */
+    /* 名称 */
 
     const name =
       document.createElement(
@@ -1085,23 +1213,19 @@ function createBoard() {
     name.className =
       "cell-name";
 
-
     name.textContent =
-      names[i] ||
+      data.names[i] ||
       "マス" +
       (i + 1);
 
 
-    /* =======================================
-       順番
+    /*
+      ⭕️を先に追加
+      文字を後に追加
 
-       ⭕️
-       ↓
-       マス名称
-
-       z-indexによって
-       マス名称が前面になる
-    ======================================= */
+      さらにz-indexで
+      文字を前面にする
+    */
 
     cell.appendChild(
       circle
@@ -1112,16 +1236,42 @@ function createBoard() {
     );
 
 
-    /* =======================================
-       タップ
-    ======================================= */
+    /* タップ */
 
     cell.addEventListener(
       "click",
       function() {
 
-        cell.classList.toggle(
-          "checked"
+        const current =
+          getCurrentProject();
+
+
+        const position =
+          current.checked.indexOf(i);
+
+
+        if (
+          position === -1
+        ) {
+
+          current.checked.push(i);
+
+        }
+
+        else {
+
+          current.checked.splice(
+            position,
+            1
+          );
+
+        }
+
+
+        saveProjects();
+
+        renderBoard(
+          current
         );
 
       }
@@ -1137,27 +1287,151 @@ function createBoard() {
 }
 
 
-/* =====================================================
-   マス名称設定画面を開く
-===================================================== */
+/* =================================================
+   企画切り替え
+================================================= */
+
+function switchProject(
+  number
+) {
+
+  /* 現在の設定を保存 */
+
+  saveCurrentInputs();
+
+
+  currentProject =
+    number;
+
+
+  render();
+
+}
+
+
+/* =================================================
+   現在の入力内容を保存
+================================================= */
+
+function saveCurrentInputs() {
+
+  const data =
+    getCurrentProject();
+
+
+  /* タイトル */
+
+  const newTitle =
+    titleInput.value.trim();
+
+
+  data.title =
+    newTitle ||
+    "企画";
+
+
+  /* マス数 */
+
+  let newCount =
+    parseInt(
+      countInput.value,
+      10
+    );
+
+
+  if (
+    isNaN(newCount)
+  ) {
+
+    newCount = 1;
+
+  }
+
+
+  if (
+    newCount < 1
+  ) {
+
+    newCount = 1;
+
+  }
+
+
+  if (
+    newCount > 200
+  ) {
+
+    newCount = 200;
+
+  }
+
+
+  data.count =
+    newCount;
+
+
+  /* 名称不足分を追加 */
+
+  while (
+    data.names.length <
+    newCount
+  ) {
+
+    data.names.push(
+      "マス" +
+      (
+        data.names.length +
+        1
+      )
+    );
+
+  }
+
+
+  /* 不要な⭕️を削除 */
+
+  data.checked =
+    data.checked.filter(
+      index =>
+        index < newCount
+    );
+
+
+  saveProjects();
+
+}
+
+
+/* =================================================
+   マスを作る
+================================================= */
+
+function createBoard() {
+
+  saveCurrentInputs();
+
+  render();
+
+}
+
+
+/* =================================================
+   名称設定を開く
+================================================= */
 
 function openNameEditor() {
 
-  const count =
-    getCount();
+  const data =
+    getCurrentProject();
 
 
   nameList.innerHTML =
     "";
 
 
-  /* =========================================
-     マスごとの入力欄
-  ========================================= */
-
   for (
     let i = 0;
-    i < count;
+    i < data.count;
     i++
   ) {
 
@@ -1181,11 +1455,13 @@ function openNameEditor() {
       "name-number";
 
     number.textContent =
-      (i + 1) +
+      (
+        i + 1
+      ) +
       "．";
 
 
-    /* 入力 */
+    /* 入力欄 */
 
     const input =
       document.createElement(
@@ -1196,15 +1472,15 @@ function openNameEditor() {
       "text";
 
     input.value =
-      names[i] ||
+      data.names[i] ||
       "マス" +
-      (i + 1);
+      (
+        i + 1
+      );
 
     input.dataset.index =
       i;
 
-
-    /* 追加 */
 
     row.appendChild(
       number
@@ -1228,11 +1504,15 @@ function openNameEditor() {
 }
 
 
-/* =====================================================
-   名称を保存
-===================================================== */
+/* =================================================
+   名称保存
+================================================= */
 
 function saveNames() {
+
+  const data =
+    getCurrentProject();
+
 
   const inputs =
     nameList.querySelectorAll(
@@ -1240,58 +1520,45 @@ function saveNames() {
     );
 
 
-  const newNames =
-    [];
-
-
   inputs.forEach(
     function(input) {
 
-      let value =
+      const index =
+        parseInt(
+          input.dataset.index,
+          10
+        );
+
+
+      const value =
         input.value.trim();
 
 
-      if (
-        value === ""
-      ) {
-
-        value =
-          "マス" +
-          (
-            parseInt(
-              input.dataset.index,
-              10
-            ) + 1
-          );
-
-      }
-
-
-      newNames.push(
-        value
-      );
+      data.names[index] =
+        value ||
+        "マス" +
+        (
+          index + 1
+        );
 
     }
   );
 
 
-  names =
-    newNames;
-
-
-  /* ボード再表示 */
-
-  createBoard();
+  saveProjects();
 
 
   closeNameEditor();
 
+
+  render();
+
 }
 
 
-/* =====================================================
-   名称設定を閉じる
-===================================================== */
+/* =================================================
+   モーダルを閉じる
+================================================= */
 
 function closeNameEditor() {
 
@@ -1302,15 +1569,15 @@ function closeNameEditor() {
 }
 
 
-/* =====================================================
-   ⭕️全部リセット
-===================================================== */
+/* =================================================
+   ⭕️リセット
+================================================= */
 
 function resetChecked() {
 
   const ok =
-    window.confirm(
-      "付いている⭕️をすべて消しますか？"
+    confirm(
+      "現在の企画の⭕️を全部消しますか？"
     );
 
 
@@ -1323,28 +1590,93 @@ function resetChecked() {
   }
 
 
-  const checkedCells =
-    board.querySelectorAll(
-      ".cell.checked"
-    );
+  const data =
+    getCurrentProject();
 
 
-  checkedCells.forEach(
-    function(cell) {
+  data.checked =
+    [];
 
-      cell.classList.remove(
-        "checked"
-      );
 
-    }
-  );
+  saveProjects();
+
+
+  render();
 
 }
 
 
-/* =====================================================
-   ボタン
-===================================================== */
+/* =================================================
+   タイトル入力
+================================================= */
+
+titleInput.addEventListener(
+  "input",
+  function() {
+
+    const data =
+      getCurrentProject();
+
+
+    data.title =
+      titleInput.value;
+
+
+    title.textContent =
+      titleInput.value;
+
+
+    saveProjects();
+
+  }
+);
+
+
+/* =================================================
+   マス数変更
+================================================= */
+
+countInput.addEventListener(
+  "change",
+  function() {
+
+    createBoard();
+
+  }
+);
+
+
+/* =================================================
+   企画①
+================================================= */
+
+tab1.addEventListener(
+  "click",
+  function() {
+
+    switchProject(1);
+
+  }
+);
+
+
+/* =================================================
+   企画②
+================================================= */
+
+tab2.addEventListener(
+  "click",
+  function() {
+
+    switchProject(2);
+
+  }
+);
+
+
+/* =================================================
+   マスを作る
+================================================= */
 
 document
   .getElementById(
@@ -1360,6 +1692,10 @@ document
   );
 
 
+/* =================================================
+   名称設定
+================================================= */
+
 document
   .getElementById(
     "nameButton"
@@ -1373,6 +1709,10 @@ document
     }
   );
 
+
+/* =================================================
+   名称保存
+================================================= */
 
 document
   .getElementById(
@@ -1388,6 +1728,10 @@ document
   );
 
 
+/* =================================================
+   キャンセル
+================================================= */
+
 document
   .getElementById(
     "cancelButton"
@@ -1401,6 +1745,10 @@ document
     }
   );
 
+
+/* =================================================
+   ⭕️リセット
+================================================= */
 
 document
   .getElementById(
@@ -1416,23 +1764,9 @@ document
   );
 
 
-/* =====================================================
-   タイトルを入力したら即反映
-===================================================== */
-
-titleInput.addEventListener(
-  "input",
-  function() {
-
-    updateTitle();
-
-  }
-);
-
-
-/* =====================================================
-   モーダルの外側をタップして閉じる
-===================================================== */
+/* =================================================
+   モーダル外タップ
+================================================= */
 
 nameModal.addEventListener(
   "click",
@@ -1451,11 +1785,11 @@ nameModal.addEventListener(
 );
 
 
-/* =====================================================
-   最初に47マス表示
-===================================================== */
+/* =================================================
+   最初の表示
+================================================= */
 
-createBoard();
+render();
 
 </script>
 
