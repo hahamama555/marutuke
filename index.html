@@ -15,8 +15,13 @@ html, body {
   margin: 0;
   padding: 0;
   background: white;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
-               "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    sans-serif;
 }
 
 /* 全体 */
@@ -24,7 +29,7 @@ html, body {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding: 15px 10px 50px;
+  padding: 15px 8px 70px;
 }
 
 /* タイトル */
@@ -34,7 +39,7 @@ h1 {
   margin: 5px 0 15px;
 }
 
-/* 設定エリア */
+/* 設定部分 */
 .settings {
   background: #f5f5f5;
   border-radius: 12px;
@@ -57,20 +62,15 @@ h1 {
   border-radius: 8px;
 }
 
-/* ボタン */
-button {
-  border: none;
-  border-radius: 8px;
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
 .create-btn {
+  width: 100%;
+  padding: 12px;
   background: #333;
   color: white;
-  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 /* マス */
@@ -78,98 +78,126 @@ button {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 6px;
-  background: white;
 }
 
-/*
-  マス本体
-  position: relative にして
-  ⭕️と文字を重ねる
-*/
+/* 1マス */
 .cell {
   position: relative;
+
   aspect-ratio: 1 / 1;
+
   background: #9edff0;
+
   border: 3px solid #777;
   border-radius: 10px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   overflow: hidden;
 
-  /* タップできるようにする */
   cursor: pointer;
   touch-action: manipulation;
 }
 
-/* ⭕️
-   文字より下のレイヤー */
+/*
+========================================
+タップ後のマス
+========================================
+*/
+.cell.active {
+  background: white;
+}
+
+/*
+========================================
+⭕️
+========================================
+
+マス全体に重ねる。
+
+文字より下のレイヤー。
+*/
 .circle {
   position: absolute;
 
-  /* ⭕️を大きく */
   width: 88%;
   height: 88%;
-
-  border: 8px solid red;
-  border-radius: 50%;
 
   left: 6%;
   top: 6%;
 
-  z-index: 1;
-
-  /* クリックを邪魔しない */
-  pointer-events: none;
+  border: 8px solid red;
+  border-radius: 50%;
 
   display: none;
+
+  z-index: 1;
+
+  pointer-events: none;
 }
 
-/* タップ後 */
-.cell.active {
-  background: #ff0000;
-}
-
-/* ⭕️を表示 */
+/* タップ後だけ⭕️表示 */
 .cell.active .circle {
   display: block;
 }
 
 /*
-  マスの名称
-  ⭕️より上のレイヤー
+========================================
+マス名称
+========================================
+
+⭕️より前面。
+
+これによって
+
+⭕️
+北海道
+
+ではなく
+
+北海道
+⭕️
+
+のように「文字が⭕️の向こう側」に見える。
 */
 .cell-name {
   position: relative;
+
   z-index: 2;
 
   color: #222;
-  font-size: clamp(12px, 3.5vw, 24px);
+
+  font-size: clamp(
+    12px,
+    3.5vw,
+    24px
+  );
+
   font-weight: bold;
+
   text-align: center;
 
-  /* 文字を⭕️の上に表示 */
-  pointer-events: none;
+  line-height: 1.2;
 
   padding: 4px;
-  line-height: 1.2;
+
+  pointer-events: none;
 }
 
-/*
-  赤くなった後の文字
-  白文字
-*/
+/* タップ後は白文字 */
 .cell.active .cell-name {
-  color: white;
+  color: #222;
 }
 
 /* スマホ */
 @media (max-width: 600px) {
 
   .container {
-    padding-left: 6px;
-    padding-right: 6px;
-    padding-bottom: 60px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 70px;
   }
 
   h1 {
@@ -190,7 +218,11 @@ button {
   }
 
   .cell-name {
-    font-size: clamp(11px, 3.7vw, 20px);
+    font-size: clamp(
+      11px,
+      3.7vw,
+      20px
+    );
   }
 }
 </style>
@@ -200,12 +232,15 @@ button {
 
 <div class="container">
 
-  <h1 id="title">47都道府県制覇！</h1>
+  <h1 id="title">
+    47都道府県制覇！
+  </h1>
 
   <!-- 設定 -->
   <div class="settings">
 
     <label>タイトル</label>
+
     <input
       id="titleInput"
       type="text"
@@ -213,6 +248,7 @@ button {
     >
 
     <label>マス数（1〜200）</label>
+
     <input
       id="countInput"
       type="number"
@@ -221,130 +257,190 @@ button {
       value="47"
     >
 
-    <button class="create-btn" onclick="createBoard()">
+    <button
+      class="create-btn"
+      onclick="createBoard()"
+    >
       マスを作る
     </button>
 
   </div>
 
   <!-- マス -->
-  <div id="board" class="board"></div>
+  <div
+    id="board"
+    class="board"
+  ></div>
 
 </div>
 
 <script>
 
-/* 初期名称 */
+/* 47都道府県 */
 const defaultNames = [
+
   "北海道",
   "青森県",
   "岩手県",
   "宮城県",
   "秋田県",
+
   "山形県",
   "福島県",
   "茨城県",
   "栃木県",
   "群馬県",
+
   "埼玉県",
   "千葉県",
   "東京都",
   "神奈川県",
   "新潟県",
+
   "富山県",
   "石川県",
   "福井県",
   "山梨県",
   "長野県",
+
   "岐阜県",
   "静岡県",
   "愛知県",
   "三重県",
   "滋賀県",
+
   "京都府",
   "大阪府",
   "兵庫県",
   "奈良県",
   "和歌山県",
+
   "鳥取県",
   "島根県",
   "岡山県",
   "広島県",
   "山口県",
+
   "徳島県",
   "香川県",
   "愛媛県",
   "高知県",
   "福岡県",
+
   "佐賀県",
   "長崎県",
   "熊本県",
   "大分県",
   "宮崎県",
+
   "鹿児島県",
   "沖縄県"
+
 ];
 
 
-/* マスを作成 */
+/* マス作成 */
 function createBoard() {
 
-  const board = document.getElementById("board");
-  const title = document.getElementById("title");
+  const board =
+    document.getElementById("board");
 
-  const count =
-    parseInt(document.getElementById("countInput").value) || 47;
+  const title =
+    document.getElementById("title");
 
-  const titleText =
-    document.getElementById("titleInput").value || "マス企画";
+  const titleInput =
+    document.getElementById("titleInput");
 
-  /* タイトル変更 */
-  title.textContent = titleText;
+  const countInput =
+    document.getElementById("countInput");
 
-  /* マスを一旦削除 */
+
+  /* タイトル */
+  title.textContent =
+    titleInput.value || "マス企画";
+
+
+  /* マス数 */
+  let count =
+    parseInt(countInput.value);
+
+  if (!count || count < 1) {
+    count = 1;
+  }
+
+  if (count > 200) {
+    count = 200;
+  }
+
+
+  /* 既存マス削除 */
   board.innerHTML = "";
 
-  /* 1〜200に制限 */
-  const total = Math.max(1, Math.min(200, count));
 
-  for (let i = 0; i < total; i++) {
+  /* マス生成 */
+  for (let i = 0; i < count; i++) {
 
-    const cell = document.createElement("div");
+    const cell =
+      document.createElement("div");
+
     cell.className = "cell";
 
+
     /*
-      ⭕️
-      z-index 1
+    ⭕️
     */
-    const circle = document.createElement("div");
+    const circle =
+      document.createElement("div");
+
     circle.className = "circle";
 
+
     /*
-      文字
-      z-index 2
+    マス名称
     */
-    const name = document.createElement("div");
+    const name =
+      document.createElement("div");
+
     name.className = "cell-name";
 
+
+    /* 47都道府県 */
     if (i < defaultNames.length) {
-      name.textContent = defaultNames[i];
+
+      name.textContent =
+        defaultNames[i];
+
     } else {
-      name.textContent = "マス" + (i + 1);
+
+      name.textContent =
+        "マス" + (i + 1);
+
     }
 
+
     /*
-      ⭕️ → 文字
-      の順番で入れる
+    ⭕️を先に入れる
+    ↓
+    文字を後に入れる
+
+    z-indexで文字が前面。
     */
     cell.appendChild(circle);
     cell.appendChild(name);
 
+
     /*
-      タップすると赤＋⭕️
+    タップ処理
     */
-    cell.addEventListener("click", function() {
-      cell.classList.toggle("active");
-    });
+    cell.addEventListener(
+      "click",
+      function() {
+
+        cell.classList.toggle("active");
+
+      }
+    );
+
 
     board.appendChild(cell);
   }
